@@ -1,0 +1,18 @@
+FROM node:20-alpine
+WORKDIR /app
+
+# Install root dependencies required for workspaces
+COPY package.json /app/package.json
+COPY apps/server/package.json /app/apps/server/package.json
+
+RUN apk add --no-cache libc6-compat \
+  && npm install
+
+COPY . .
+
+# Ensure Prisma client generated (after schema exists)
+RUN if [ -f apps/server/prisma/schema.prisma ]; then npx prisma generate --schema=apps/server/prisma/schema.prisma; fi
+
+EXPOSE 4000
+CMD ["npm","run","start","-w","apps/server"]
+
