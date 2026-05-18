@@ -15,7 +15,6 @@
             "node"
         ],
         "sourceMap": true,
-        "incremental": true,
-        "ignoreDeprecations": "6.0"
+        "incremental": true
     }
 }

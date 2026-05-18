@@ -1,35 +1,46 @@
-
-
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
+  console.log('Starting seeding...');
+
+  // 1. Create a Default Hospital
   const hospital = await prisma.hospital.upsert({
-    where: { name: 'Demo Hospital' },
+    where: { id: 'default-hosp' },
     update: {},
     create: {
-      name: 'Demo Hospital'
-    }
+      id: 'default-hosp',
+      name: 'General City Hospital',
+    },
   });
 
-  const dept = await prisma.department.create({
-    data: {
-      name: 'General',
-      hospitalId: hospital.id
-    }
-  });
-
-  await prisma.employee.create({
-    data: {
-      fullName: 'Demo Employee',
+  // 2. Create a Default Department
+  await prisma.department.upsert({
+    where: { id: 'default-dept' },
+    update: {},
+    create: {
+      id: 'default-dept',
+      name: 'Emergency Room',
       hospitalId: hospital.id,
-      departmentId: dept.id
-    }
+    },
   });
 
-  // NOTE: Auth is stubbed right now. When User model wiring is added,
-  // this seed will also create an admin user.
+  // 3. Create an Admin User
+  const hashedPassword = await bcrypt.hash('admin123', 10);
+  await prisma.user.upsert({
+    where: { email: 'admin@hcm.com' },
+    update: {},
+    create: {
+      email: 'admin@hcm.com',
+      passwordHash: hashedPassword,
+      role: 'ADMIN',
+      hospitalId: hospital.id,
+    },
+  });
+
+  console.log('Seeding finished successfully.');
 }
 
 main()
@@ -40,5 +51,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-
-
