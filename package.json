@@ -6,7 +6,6 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspace=@hcm/web",
     "dev": "concurrently -n server,web,worker,queue -c blue,green,magenta,cyan \"npm:dev -w apps/server\" \"npm:dev -w apps/web\" \"npm:dev -w apps/worker\" \"npm:dev -w apps/queue\"",
     "lint": "npm run lint -w apps/server && npm run lint -w apps/web",
     "typecheck": "npm run typecheck -w apps/server && npm run typecheck -w apps/web"
