@@ -13,11 +13,13 @@ export class AuthController {
   }
 
   @Post('logout')
+  @UseGuards(RbacGuard)
   async logout() {
     return { ok: true };
   }
 
   @Post('refresh')
+  @UseGuards(RbacGuard)
   async refresh() {
     return { ok: true };
   }
@@ -29,5 +31,3 @@ export class AuthController {
     return { ok: true };
   }
 }
-
-

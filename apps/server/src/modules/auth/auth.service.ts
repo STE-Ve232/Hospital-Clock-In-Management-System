@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
@@ -7,8 +8,15 @@ export class AuthService {
   constructor(private readonly jwt: JwtService) {}
 
   async login(dto: LoginDto) {
-    // TODO: Replace with Prisma user lookup + password hashing verification.
-    if (dto.email !== 'admin@demo.com' || dto.password !== 'Admin123!') {
+    // TODO: Replace with Prisma user lookup.
+    const hashedPassword = await bcrypt.hash('Admin123!', 10);
+
+    const isPasswordMatching = await bcrypt.compare(
+      dto.password,
+      hashedPassword,
+    );
+
+    if (dto.email !== 'admin@demo.com' || !isPasswordMatching) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -19,7 +27,7 @@ export class AuthService {
     };
 
     const accessToken = this.jwt.sign(payload);
-    const refreshToken = this.jwt.sign(payload, { expiresIn: process.env.JWT_REFRESH_TTL ?? '30d' });
+    const refreshToken = this.jwt.sign(payload, { expiresIn: '30d' });
 
     return {
       accessToken,
@@ -32,5 +40,3 @@ export class AuthService {
     };
   }
 }
-
-
