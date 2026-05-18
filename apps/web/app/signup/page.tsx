@@ -4,6 +4,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/firebase';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -16,20 +19,21 @@ export default function SignupPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    // Backend currently only supports /api/auth/login.
-    // To avoid “Cannot POST /api/auth/signup”, we treat signup as a UI-only flow.
-    // Users can still create an account in Firebase (if configured) and then log in.
-
     setError(null);
     setLoading(true);
     try {
-      // Basic client-side validation only.
-      if (!name.trim()) throw new Error('Name is required');
-      if (!email.trim()) throw new Error('Email is required');
-      if (!password.trim()) throw new Error('Password is required');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      // Redirect to login. (No backend endpoint exists yet.)
-      router.push('/login');
+      // Store user details in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        name,
+        email,
+        role: 'STAFF', // Default role
+        createdAt: new Date().toISOString(),
+      });
+
+      router.push('/dashboard');
     } catch (err: any) {
       setError(err?.message ?? 'Sign up failed');
     } finally {
@@ -81,9 +85,16 @@ export default function SignupPage() {
 
           <button
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-4 py-2 text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-lg bg-blue-600 px-4 py-2 text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center"
           >
-            {loading ? 'Creating…' : 'Create account'}
+            {loading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Creating...
+              </>
+            ) : (
+              'Create account'
+            )}
           </button>
 
           <div className="text-center text-sm mt-2">
@@ -95,4 +106,3 @@ export default function SignupPage() {
     </main>
   );
 }
-
