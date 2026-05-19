@@ -15,5 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "react-phone-number-input": "^3.4.16"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^11.0.0"
   }
 }
