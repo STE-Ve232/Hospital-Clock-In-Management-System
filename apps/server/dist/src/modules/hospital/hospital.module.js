@@ -10,7 +10,7 @@ exports.HospitalModule = void 0;
 const common_1 = require("@nestjs/common");
 const hospital_controller_1 = require("./hospital.controller");
 const hospital_service_1 = require("./hospital.service");
-const prisma_module_1 = require("../../database/prisma/prisma.module");
+const prisma_module_1 = require("../../../dist/database/prisma/prisma.module");
 let HospitalModule = class HospitalModule {
 };
 exports.HospitalModule = HospitalModule;

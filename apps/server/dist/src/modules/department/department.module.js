@@ -10,7 +10,7 @@ exports.DepartmentModule = void 0;
 const common_1 = require("@nestjs/common");
 const department_controller_1 = require("./department.controller");
 const department_service_1 = require("./department.service");
-const prisma_module_1 = require("../../database/prisma/prisma.module");
+const prisma_module_1 = require("../../../dist/database/prisma/prisma.module");
 let DepartmentModule = class DepartmentModule {
 };
 exports.DepartmentModule = DepartmentModule;

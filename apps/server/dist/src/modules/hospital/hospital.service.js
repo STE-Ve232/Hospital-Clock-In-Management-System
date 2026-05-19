@@ -8,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HospitalService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../../database/prisma/prisma.service");
+const prisma_service_1 = require("../../../dist/database/prisma/prisma.service");
 let HospitalService = class HospitalService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -26,6 +27,6 @@ let HospitalService = class HospitalService {
 exports.HospitalService = HospitalService;
 exports.HospitalService = HospitalService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [typeof (_a = typeof prisma_service_1.PrismaService !== "undefined" && prisma_service_1.PrismaService) === "function" ? _a : Object])
 ], HospitalService);
 //# sourceMappingURL=hospital.service.js.map

@@ -41,12 +41,13 @@ var __importStar = (this && this.__importStar) || (function () {
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
-const prisma_service_1 = require("../../database/prisma/prisma.service");
+const prisma_service_1 = require("../../../dist/database/prisma/prisma.service");
 let AuthService = class AuthService {
     constructor(jwt, prisma) {
         this.jwt = jwt;
@@ -80,7 +81,6 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
-        prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [jwt_1.JwtService, typeof (_a = typeof prisma_service_1.PrismaService !== "undefined" && prisma_service_1.PrismaService) === "function" ? _a : Object])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map
