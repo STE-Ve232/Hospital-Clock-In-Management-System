@@ -13,6 +13,9 @@ import {
   ConfirmationResult
 } from 'firebase/auth';
 import { auth } from '@/firebase';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import { E164Number } from 'libphonenumber-js/core';
 
 // Add a new type for the component
 declare global {
@@ -27,7 +30,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState<E164Number | undefined>();
   const [code, setCode] = useState('');
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
 
@@ -60,6 +63,11 @@ export default function LoginPage() {
   }
 
   async function handlePhoneSignIn() {
+    if (!phoneNumber) {
+      setError('Phone number is required.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -185,11 +193,10 @@ export default function LoginPage() {
           <div className="mt-4">
             <label className="block">
               <span className="text-sm">Phone Number</span>
-              <input
+              <PhoneInput
                 className="mt-1 w-full rounded-lg border bg-transparent p-2"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                type="tel"
+                onChange={setPhoneNumber}
                 placeholder="+1 650-555-3434"
               />
             </label>

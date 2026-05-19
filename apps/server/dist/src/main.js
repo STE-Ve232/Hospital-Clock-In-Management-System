@@ -43,12 +43,12 @@ const app_module_1 = require("./app.module");
 const swagger_config_1 = require("./shared/swagger/swagger.config");
 const http_error_formatter_interceptor_1 = require("./shared/http/http-error-formatter.interceptor");
 const cookieParser = __importStar(require("cookie-parser"));
-const csurf = __importStar(require("csurf"));
+// import * as csurf from 'csurf';
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.use((0, helmet_1.default)());
     app.use(cookieParser());
-    app.use(csurf({ cookie: true }));
+    // app.use(csurf({ cookie: true }));
     app.setGlobalPrefix('api');
     app.enableCors({
         origin: 'http://localhost:3000',

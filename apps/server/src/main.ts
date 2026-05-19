@@ -5,14 +5,14 @@ import { AppModule } from './app.module';
 import { SwaggerConfig } from './shared/swagger/swagger.config';
 import { HttpErrorFormatterInterceptor } from './shared/http/http-error-formatter.interceptor';
 import * as cookieParser from 'cookie-parser';
-import * as csurf from 'csurf';
+// import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
   app.use(cookieParser());
-  app.use(csurf({ cookie: true }));
+  // app.use(csurf({ cookie: true }));
   
   app.setGlobalPrefix('api');
 
