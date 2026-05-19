@@ -5,19 +5,26 @@ import { AppModule } from './app.module';
 import { SwaggerConfig } from './shared/swagger/swagger.config';
 import { HttpErrorFormatterInterceptor } from './shared/http/http-error-formatter.interceptor';
 import * as cookieParser from 'cookie-parser';
-// import * as csurf from 'csurf';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+
+let cachedServer: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  if (cachedServer) {
+    return cachedServer;
+  }
+
+  const expressApp = express();
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
 
   app.use(helmet());
   app.use(cookieParser());
-  // app.use(csurf({ cookie: true }));
-  
+
   app.setGlobalPrefix('api');
 
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'https://hospital-clock-in-management-system.vercel.app/',
     credentials: true
   });
 
@@ -34,8 +41,9 @@ async function bootstrap() {
 
   SwaggerConfig.apply(app);
 
-  const port = process.env.PORT ? Number(process.env.PORT) : 4000;
-  await app.listen(port);
+  await app.init();
+  cachedServer = expressApp;
+  return cachedServer;
 }
 
-bootstrap();
+export default bootstrap();
