@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -34,8 +33,12 @@ export default function SignupPage() {
       });
 
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err?.message ?? 'Sign up failed');
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Sign up failed');
+      }
     } finally {
       setLoading(false);
     }

@@ -1,0 +1,1 @@
+{"version":3,"file":"roles.constants.js","sourceRoot":"","sources":["../../../../../src/modules/auth/rbac/roles.constants.ts"],"names":[],"mappings":";;;AAAa,QAAA,KAAK,GAAG;IACnB,WAAW,EAAE,aAAa;IAC1B,cAAc,EAAE,gBAAgB;IAChC,UAAU,EAAE,YAAY;IACxB,UAAU,EAAE,YAAY;IACxB,QAAQ,EAAE,UAAU;CACZ,CAAC"}

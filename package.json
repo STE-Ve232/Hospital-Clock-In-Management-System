@@ -1,24 +1,16 @@
 {
   "name": "hospital-clock-in-management-system",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -n server,web,worker,queue -c blue,green,magenta,cyan \"npm:dev -w apps/server\" \"npm:dev -w apps/web\" \"npm:dev -w apps/worker\" \"npm:dev -w apps/queue\"",
-    "lint": "npm run lint -w apps/server && npm run lint -w apps/web",
-    "typecheck": "npm run typecheck -w apps/server && npm run typecheck -w apps/web"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build --workspaces"
   },
-  "devDependencies": {
-    "concurrently": "^9.0.0"
-  },
-  "dependencies": {
-    "@fastify/csrf-protection": "^7.1.0",
-    "@nestjs/throttler": "^6.5.0",
-    "class-sanitizer": "^1.0.1",
-    "cookie-parser": "^1.4.7",
-    "csurf": "^1.11.0",
-    "firebase": "^12.13.0"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
