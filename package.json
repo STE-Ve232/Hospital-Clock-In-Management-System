@@ -17,6 +17,7 @@
     "react-phone-number-input": "^3.4.16"
   },
   "devDependencies": {
-    "dotenv-cli": "^11.0.0"
+    "dotenv-cli": "^11.0.0",
+    "tsconfig-paths": "^4.2.0"
   }
 }
