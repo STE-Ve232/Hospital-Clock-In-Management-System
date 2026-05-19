@@ -12,8 +12,8 @@ const rxjs_1 = require("rxjs");
 let HttpErrorFormatterInterceptor = class HttpErrorFormatterInterceptor {
     intercept(context, next) {
         return next.handle().pipe((0, rxjs_1.catchError)((err) => {
-            const status = err?.status ?? common_1.HttpStatus.INTERNAL_SERVER_ERROR;
-            const message = err?.response?.message ?? err?.message ?? 'Request failed';
+            const status = err.status ?? common_1.HttpStatus.INTERNAL_SERVER_ERROR;
+            const message = err.message ?? 'Request failed';
             return (0, rxjs_1.throwError)(() => ({ statusCode: status, message }));
         }));
     }

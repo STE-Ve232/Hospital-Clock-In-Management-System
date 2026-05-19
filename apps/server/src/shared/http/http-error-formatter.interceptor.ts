@@ -11,12 +11,11 @@ import { Observable, catchError, throwError } from 'rxjs';
 export class HttpErrorFormatterInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      catchError((err) => {
-        const status = err?.status ?? HttpStatus.INTERNAL_SERVER_ERROR;
-        const message = err?.response?.message ?? err?.message ?? 'Request failed';
+      catchError((err: Record<string, unknown>) => {
+        const status = (err.status as number) ?? HttpStatus.INTERNAL_SERVER_ERROR;
+        const message = (err.message as string) ?? 'Request failed';
         return throwError(() => ({ statusCode: status, message }));
       })
     );
   }
 }
-

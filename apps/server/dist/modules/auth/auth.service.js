@@ -46,9 +46,11 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
+const prisma_service_1 = require("../../database/prisma/prisma.service");
 let AuthService = class AuthService {
-    constructor(jwt) {
+    constructor(jwt, prisma) {
         this.jwt = jwt;
+        this.prisma = prisma;
     }
     async login(dto) {
         // TODO: Replace with Prisma user lookup.
@@ -60,7 +62,7 @@ let AuthService = class AuthService {
         const payload = {
             sub: 'demo-user',
             email: dto.email,
-            role: 'SUPER_ADMIN'
+            role: 'SUPER_ADMIN',
         };
         const accessToken = this.jwt.sign(payload);
         const refreshToken = this.jwt.sign(payload, { expiresIn: '30d' });
@@ -70,14 +72,15 @@ let AuthService = class AuthService {
             user: {
                 id: 'demo-user',
                 email: dto.email,
-                role: 'SUPER_ADMIN'
-            }
+                role: 'SUPER_ADMIN',
+            },
         };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService])
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        prisma_service_1.PrismaService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

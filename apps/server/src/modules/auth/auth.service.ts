@@ -1,11 +1,15 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'src/database/prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwt: JwtService) {}
+  constructor(
+    private readonly jwt: JwtService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async login(dto: LoginDto) {
     // TODO: Replace with Prisma user lookup.
@@ -23,7 +27,7 @@ export class AuthService {
     const payload = {
       sub: 'demo-user',
       email: dto.email,
-      role: 'SUPER_ADMIN'
+      role: 'SUPER_ADMIN',
     };
 
     const accessToken = this.jwt.sign(payload);
@@ -35,8 +39,8 @@ export class AuthService {
       user: {
         id: 'demo-user',
         email: dto.email,
-        role: 'SUPER_ADMIN'
-      }
+        role: 'SUPER_ADMIN',
+      },
     };
   }
 }

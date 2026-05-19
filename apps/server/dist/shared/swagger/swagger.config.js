@@ -9,7 +9,9 @@ class SwaggerConfig {
             .setDescription('Attendance, HR, leave & payroll management')
             .setVersion('0.1.0')
             .build();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const doc = swagger_1.SwaggerModule.createDocument(app, config);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         swagger_1.SwaggerModule.setup('api/docs', app, doc);
     }
 }
