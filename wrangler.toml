@@ -1,5 +1,6 @@
 name = "hospital-clock-in-management-system-server"
 compatibility_date = "2024-05-20"
+pages_build_output_dir = "apps/server/dist"
 
 [build]
-command = "npm install && npm run build --workspace=@hcm/server"
+command = "npm install && npm run build --workspace=@hcm/server && mv apps/server/dist/main.js apps/server/dist/_worker.js"
