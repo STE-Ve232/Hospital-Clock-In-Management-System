@@ -1,15 +1,7 @@
-name = "hospital-clock-in-management-system-server"
-compatibility_date = "2024-09-23"
-pages_build_output_dir = "apps/server/dist"
-compatibility_flags = [ "nodejs_compat" ]
+[pages_build_output]
 
 [functions]
-patterns = ["_worker.js"]
-external = [
-    "mock-aws-s3",
-    "aws-sdk",
-    "nock",
-    "@nestjs/microservices",
-    "class-transformer/storage",
-    "@nestjs/platform-socket.io"
-]
+node_compat = true
+
+[build]
+command = "npm install && npm run build --workspace=@hcm/server && mv apps/server/dist/main.js apps/server/dist/_worker.js"
