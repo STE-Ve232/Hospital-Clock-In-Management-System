@@ -8,6 +8,8 @@ import cookieParser = require('cookie-parser');
 import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express';
 
+let serverPromise;
+
 async function bootstrap() {
   const expressApp = express();
   const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
@@ -39,13 +41,12 @@ async function bootstrap() {
   return expressApp;
 }
 
-let server: any;
-
 export default {
   async fetch(request: Request, env: any, ctx: any) {
-    if (!server) {
-      server = await bootstrap();
+    if (!serverPromise) {
+      serverPromise = bootstrap();
     }
-    return server(request, env, ctx);
+    const server = await serverPromise;
+    return server(request as any, env, ctx);
   },
 };
